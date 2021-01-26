@@ -17,6 +17,12 @@ def get_pat():
   pat = json_data['link']
   return pat
 
+def get_meme():
+  response = requests.get("https://meme-api.herokuapp.com/gimme")
+  json_data = json.loads(response.text)
+  meme = json_data['url']
+  return meme
+
 @client.event
 async def on_ready():
   print('We are ready, user {0.user}'.format(client))
@@ -34,7 +40,13 @@ async def on_message(message):
     hug = get_hug()
     await message.channel.send(hug)
 
+  if message.content.startswith('!meme'):
+    meme = get_meme()
+    await message.channel.send(meme)
+
 client.run(os.getenv('TOKEN'))
+
+#I'm thinking that I might just download a bunch of images instead of hitting an api to produce them... not sure.
 
 ##TODO:
 #!info - lists commands and functionality 
