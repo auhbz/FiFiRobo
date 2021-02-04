@@ -8,7 +8,7 @@ client = discord.Client()
 
 gr0 = ["Hello ", "Howdy ", "Hey ", "Greetings ", "Salutations ", "Whatup ", "So nice to hear from you ", "It's a pleasure to see you "]
 
-gr1 = ["my lovely little lemon drop!!", "Carven!!", "my little hamster!!", "my precious angel!!", "my beautiful girl!!", "Howdy my special cutie pie!!", "my super duper peepee pooper!!"]
+gr1 = ["my lovely little lemon drop!!", "Carven!!", "my little hamster!!", "my precious angel!!", "my beautiful girl!!", "Howdy my special cutie pie!!", "my super duper peepee pooper!!", "baby bubba!!"]
 
 gr2 = [" :) ", " :D ", " ^-^ ", " c: ", " :> ", "  :] "]
 
@@ -46,6 +46,7 @@ async def on_message(message):
   if msg.startswith('hi fifi') or msg.startswith('hello fifi'):
     pat = get_pat()
     await message.channel.send(pat+" "+random.choice(gr0)+random.choice(gr1)+random.choice(gr2)+random.choice(gr3))
+    await message.channel.send("\n\n**use the 'carven want info' command to learn what I can do!**")
 
   if msg.startswith('carven want hug'):
     hug = get_hug()
@@ -58,23 +59,12 @@ async def on_message(message):
   if msg.startswith('carven want package'):
     mega = os.getenv('MEGA')
     await message.channel.send(mega)
+  
+  if msg.startswith("carven want info"):
+    help_msg = "`carven want ___` : This is how you give me commands!\n\nHere are some words to try!\n`hug`\n`meme`\n`package`\n\nTry them out to see what they do! :)"
+    embed = discord.Embed(color = 0x00ff00)
+    embed.title = "Info"
+    embed.description = help_msg
+    await message.channel.send(embed=embed)
     
 client.run(os.getenv('TOKEN'))
-
-#I'm thinking that I might just download a bunch of images instead of hitting an api to produce them... not sure. (for hamsters specifically)
-
-##TODO:
-#(last)!info - lists commands and functionality 
-#(ready)!help - are you having anxiety? -> gives advice to calm down 
-#baby bubba?
-#!wisdom - sends zen/stoic quotes
-#!package - sends emergency care package
-#!hamster - sends random hamster images
-#(DONE) !hug - sends random hug gifs
-#!memories - sends random nice memories
-#!sounds
-#!vids
-#!drive
-#!cute
-##
-#do the ping thing so the bot stays awake indefinitely
