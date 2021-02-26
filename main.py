@@ -40,6 +40,12 @@ def get_video():
 def get_memory():
   return wipmsg+"return a random happy memory that carven and auhbon shared!"
 
+def get_pic():
+  return wipmsg+"return a random pic (mostly hamsters)!"
+
+def get_wisdom():
+  return wipmsg+"return a random zen or stoic quote!"
+
 @client.event
 async def on_ready():
   print('We are ready, user {0.user}'.format(client))
@@ -75,6 +81,14 @@ async def on_message(message):
   if msg.startswith('carven want memory'):
     memory = get_memory()
     await message.channel.send(memory)
+
+  if msg.startswith('carven want pic'):
+    pic = get_pic()
+    await message.channel.send(pic)
+
+  if msg.startswith('carven want wisdom'):
+    wisdom = get_wisdom()
+    await message.channel.send(wisdom)
 
   if msg.startswith('carven want help'):
     await message.channel.send("LOVE!!! Are you having anxiety?Is your chest hurting? Whatever is going on, I'm here to help! :D\n\n`1) focus on your breathing`\n`2) realize this will pass and if theres pain it is likely due to stress`\n`3) its all in your head, you can control it`\n`4) Focus. On. Your. Breathing`\n`5) look at hamsters, potato trump, memes`\n`6) find my hoody and cuddle with it \n7) stay hydrated!`\n`19)Repeat steps 1-7!!`\n\nDon't forget to use my commands to help you out further as needed :)\n\n**Finally, Remember:**\nThis bot itself is something i made out of love and care for you. Even though I might not always be at my best, this bot will... even if i might not be around or awake all the time, this bot will... let it be a happy thing, a comforting thing, a reminder of the love and care i feel for you -Auhbon <3")
