@@ -50,7 +50,10 @@ def get_pic():
   return wipmsg+"return a random pic (mostly hamsters)!"
 
 def get_wisdom():
-  return wipmsg+"return a random zen or stoic quote!"
+  response = requests.get("https://zenquotes.io/api/random")
+  json_data = json.loads(response.text)
+  wisdom = json_data[0]['q'] + " -" + json_data[0]['a']
+  return wisdom
 
 def get_mochi(search_term, index):
   response = requests.get("https://api.tenor.com/v1/search?q=%s&key=%s&limit=%s" % (search_term, tenor, gif_lmt))
@@ -112,7 +115,7 @@ async def on_message(message):
     await message.channel.send("LOVE!!! Are you having anxiety?Is your chest hurting? Whatever is going on, I'm here to help! :D\n\n`1) focus on your breathing`\n`2) realize this will pass and if theres pain it is likely due to stress`\n`3) its all in your head, you can control it`\n`4) Focus. On. Your. Breathing`\n`5) look at hamsters, potato trump, memes`\n`6) find my hoody and cuddle with it \n7) stay hydrated!`\n`19)Repeat steps 1-7!!`\n\nDon't forget to use my commands to help you out further as needed :)\n\n**Finally, Remember:**\nThis bot itself is something i made out of love and care for you. Even though I might not always be at my best, this bot will... even if i might not be around or awake all the time, this bot will... let it be a happy thing, a comforting thing, a reminder of the love and care i feel for you -Auhbon <3")
   
   if msg.startswith(cmd+"info"):
-    info_msg = "`carven want ___` : This is how you give me commands!\n\nHere are some words to try!\n`hug`\n`meme`\n`package`\n`video`\n`memory`\n`mochi ___`\n\nTry them out to see what they do! :)\n\nOne special command that you should understand ahead of time is `help`. Use this when you're having anxiety, chest pain, or are otherwise freaking out and can't get ahold of auhbz <3"
+    info_msg = "`carven want ___` : This is how you give me commands!\n\nHere are some words to try!\n`hug`\n`meme`\n`package`\n`video`\n`wisdom`\n`pic`\n`memory`\n`mochi ___`\n\nTry them out to see what they do! :)\n\nOne special command that you should understand ahead of time is `help`. Use this when you're having anxiety, chest pain, or are otherwise freaking out and can't get ahold of auhbz <3"
     embed = discord.Embed(color = 0x00ff00)
     embed.title = "Info"
     embed.description = info_msg
