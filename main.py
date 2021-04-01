@@ -18,6 +18,8 @@ youtube = build('youtube', 'v3', developerKey=yt_key)
 
 wipmsg = "Whoopsie, this is a wip! But in the future, this will "
 
+nextPageTokens = ['CDIQAA', 'CGQQAA', 'CJYBEAA', 'CMgBEAA', 'CPoBEAA', 'CKwCEAA', 'CN4CEAA', 'CJADEAA', 'CMIDEAA', 'CPQDEAA', 'CKYEEAA', 'CNgEEAA', '']
+
 gr0 = ["Hello ", "Howdy ", "Hey ", "Greetings ", "Salutations ", "Whatup ", "So nice to hear from you ", "It's a pleasure to see you "]
 
 gr1 = ["my lovely little lemon drop!!", "Carven!!", "my little hamster!!", "my precious angel!!", "my beautiful girl!!", "Howdy my special cutie pie!!", "my super duper peepee pooper!!", "baby bubba!!"]
@@ -63,28 +65,16 @@ def get_mochi(search_term, index):
   url = top_8gifs['results'][index]['media'][0]['gif']['url']
   return url
 
-# could I use the 'pageToken' parameter to get a true random?
-#honestly.... i could just grab every single video id using the api then just do random choice on it... seems like a very easy alternative but also a lot less cool haha
+# this is a bad solution because if i add more videos i may need to come back and add another nextPageToken to the array... it's not terrible because i can add 50 videos between each time i need to add a token... but i just really dont like the idea that i cant just leave the code and let it run
+# also i should check if the next page tokens change if/when i change the playlist...
 def get_video():
+  page = random.choice(nextPageTokens)
   maxRe = 50
-  request = youtube.playlistItems().list(part='contentDetails',playlistId='PL-pmgH6nZ_TPZXfF-jU-jYHItPHTuKCRC', maxResults=maxRe)
+  request = youtube.playlistItems().list(part='contentDetails',playlistId='PL-pmgH6nZ_TPZXfF-jU-jYHItPHTuKCRC', maxResults=maxRe, pageToken=page)
   json_data = request.execute()
   item = random.choice(json_data['items'])
-  video = item['contentDetails']['videoId']
+  video = item['contentDetails']['videoId']  
   return 'https://youtube.com/watch?v='+video
-
-  # request = youtube.playlistItems().list(part='contentDetails',playlistId='PL-pmgH6nZ_TPZXfF-jU-jYHItPHTuKCRC')
-  # # response = request.execute()
-  # # json_data = json.loads(response.body)
-  # json_data = request.execute()
-  # vid = random.choice(json_data['items'])
-  # video = "youtube.com/?v="+vid['contentDetails'][0]
-  # return video
-
-  # return wipmsg+"return a random video from the special youtube playlist i made for carven!"
-  #playlistItems.list returns
-
-  #getting videoId from playlistItems.list() => contentDetails[0]
 
 @client.event
 async def on_ready():
