@@ -3,14 +3,18 @@ import os
 import requests
 import json
 import random
+from googleapiclient.discovery import build
 from keepalive import keep_alive
 
 client = discord.Client()
 
 mega = os.getenv('MEGA')
 tenor = os.getenv("TENOR")
+yt_key = os.getenv("YOUTUBE")
+
 cmd = 'carven want '
 gif_lmt = 8
+youtube = build('youtube', 'v3', developerKey=yt_key)
 
 wipmsg = "Whoopsie, this is a wip! But in the future, this will "
 
@@ -40,9 +44,6 @@ def get_meme():
   meme = json_data['url']
   return meme
 
-def get_video():
-  return wipmsg+"return a random video from the special youtube playlist i made for carven!"
-
 def get_memory():
   return wipmsg+"return a random happy memory that carven and auhbon shared!"
 
@@ -61,6 +62,29 @@ def get_mochi(search_term, index):
   top_8gifs = json.loads(response.content)         
   url = top_8gifs['results'][index]['media'][0]['gif']['url']
   return url
+
+# could I use the 'pageToken' parameter to get a true random?
+#honestly.... i could just grab every single video id using the api then just do random choice on it... seems like a very easy alternative but also a lot less cool haha
+def get_video():
+  maxRe = 50
+  request = youtube.playlistItems().list(part='contentDetails',playlistId='PL-pmgH6nZ_TPZXfF-jU-jYHItPHTuKCRC', maxResults=maxRe)
+  json_data = request.execute()
+  item = random.choice(json_data['items'])
+  video = item['contentDetails']['videoId']
+  return 'https://youtube.com/watch?v='+video
+
+  # request = youtube.playlistItems().list(part='contentDetails',playlistId='PL-pmgH6nZ_TPZXfF-jU-jYHItPHTuKCRC')
+  # # response = request.execute()
+  # # json_data = json.loads(response.body)
+  # json_data = request.execute()
+  # vid = random.choice(json_data['items'])
+  # video = "youtube.com/?v="+vid['contentDetails'][0]
+  # return video
+
+  # return wipmsg+"return a random video from the special youtube playlist i made for carven!"
+  #playlistItems.list returns
+
+  #getting videoId from playlistItems.list() => contentDetails[0]
 
 @client.event
 async def on_ready():
